@@ -14,7 +14,14 @@ public class Exercises2 {
     */
 
     public int[] twoSum(int[] nums, int target) {
-        // TODO
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
+                    return new int[] { i, j };
+                }
+            }
+        }
         return null;
     }
 
@@ -49,8 +56,49 @@ public class Exercises2 {
     */
 
     public int romanToInt(String s) {
-        // TODO
-        return 0;
+
+
+
+            int result = 0;
+            int prev = 0;
+
+            for (int i = 0; i < s.length(); i++) {
+                int curr = 0;
+                switch (s.charAt(i)) {
+                    case 'I':
+                        curr = 1;
+                        break;
+                    case 'V':
+                        curr = 5;
+                        break;
+                    case 'X':
+                        curr = 10;
+                        break;
+                    case 'L':
+                        curr = 50;
+                        break;
+                    case 'C':
+                        curr = 100;
+                        break;
+                    case 'D':
+                        curr = 500;
+                        break;
+                    case 'M':
+                        curr = 1000;
+                        break;
+
+                }
+                if (curr > prev) {
+                    result += curr - 2 * prev;
+                } else {
+                    result += curr;
+                }
+                prev = curr;
+            }
+
+            return result;
+
+
     }
 
     /*
@@ -59,8 +107,29 @@ public class Exercises2 {
     */
 
     public List<List<Integer>> permute(int[] nums) {
-        // TODO
-        return null;
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            result.add(new ArrayList<>());
+            return result;
+        }
+
+        List<Integer> first = new ArrayList<>();
+        first.add(nums[0]);
+        int[] rest = new int[nums.length - 1];
+        for (int i = 1; i < nums.length; i++) {
+            rest[i - 1] = nums[i];
+        }
+        List<List<Integer>> subPermutations = permute(rest);
+
+        for (List<Integer> subPermutation : subPermutations) {
+            for (int i = 0; i <= subPermutation.size(); i++) {
+                List<Integer> permutation = new ArrayList<>(subPermutation);
+                permutation.add(i, nums[0]);
+                result.add(permutation);
+            }
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
